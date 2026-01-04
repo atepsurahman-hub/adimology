@@ -1,0 +1,110 @@
+import type { MarketDetectorResponse, OrderbookResponse, BrokerData } from './types';
+
+const STOCKBIT_BASE_URL = 'https://exodus.stockbit.com';
+const STOCKBIT_AUTH_URL = 'https://stockbit.com';
+
+/**
+ * Get JWT token from environment
+ */
+function getAuthToken(): string {
+  const token = process.env.STOCKBIT_JWT_TOKEN;
+  if (!token) {
+    throw new Error('STOCKBIT_JWT_TOKEN not found in environment variables');
+  }
+  return token;
+}
+
+/**
+ * Common headers for Stockbit API
+ */
+function getHeaders(): HeadersInit {
+  return {
+    'accept': 'application/json',
+    'authorization': `Bearer ${getAuthToken()}`,
+    'origin': 'https://stockbit.com',
+    'referer': 'https://stockbit.com/',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  };
+}
+
+/**
+ * Fetch Market Detector data (broker information)
+ */
+export async function fetchMarketDetector(
+  emiten: string,
+  fromDate: string,
+  toDate: string
+): Promise<MarketDetectorResponse> {
+  const url = new URL(`${STOCKBIT_BASE_URL}/marketdetectors/${emiten}`);
+  url.searchParams.append('from', fromDate);
+  url.searchParams.append('to', toDate);
+  url.searchParams.append('transaction_type', 'TRANSACTION_TYPE_NET');
+  url.searchParams.append('market_board', 'MARKET_BOARD_REGULER');
+  url.searchParams.append('investor_type', 'INVESTOR_TYPE_ALL');
+  url.searchParams.append('limit', '25');
+
+  const response = await fetch(url.toString(), {
+    method: 'GET',
+    headers: getHeaders(),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Market Detector API error: ${response.status} ${response.statusText}`);
+  }
+
+  return response.json();
+}
+
+/**
+ * Fetch Orderbook data (market data)
+ */
+export async function fetchOrderbook(emiten: string): Promise<OrderbookResponse> {
+  const url = `${STOCKBIT_BASE_URL}/company-price-feed/v2/orderbook/companies/${emiten}`;
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: getHeaders(),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Orderbook API error: ${response.status} ${response.statusText}`);
+  }
+
+  return response.json();
+}
+
+/**
+ * Get top broker by BVAL from Market Detector response
+ */
+export function getTopBroker(marketDetectorData: MarketDetectorResponse): BrokerData {
+  // Debug log to see actual API response structure
+  // console.log('Market Detector API Response:', JSON.stringify(marketDetectorData, null, 2));
+
+  // The actual data is wrapped in a 'data' property
+  const brokers = marketDetectorData?.data?.broker_summary?.brokers_buy;
+
+  if (!brokers || !Array.isArray(brokers) || brokers.length === 0) {
+    throw new Error('No broker data found in data.broker_summary.brokers_buy');
+  }
+
+  // Sort by bval descending and get the first one
+  // Note: bval is a string in the API response, so we convert to Number
+  const topBroker = [...brokers].sort((a, b) => Number(b.bval) - Number(a.bval))[0];
+
+  return {
+    bandar: topBroker.netbs_broker_code,
+    barangBandar: Math.round(Number(topBroker.blot)),
+    rataRataBandar: Math.round(Number(topBroker.netbs_buy_avg_price)),
+  };
+}
+
+/**
+ * Helper to parse lot string (e.g., "25,322,000" -> 25322000)
+ */
+export function parseLot(lotStr: string): number {
+  if (!lotStr) return 0;
+  return Number(lotStr.replace(/,/g, ''));
+}
+
+
+
