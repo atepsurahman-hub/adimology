@@ -1,4 +1,4 @@
-# Adimology - Kalkulator Target Saham 📈
+# Adimology - Kalkulator Target Saham
 
 > [!CAUTION]
 > **PERINGATAN KEAMANAN**: Jangan pernah membagikan URL aplikasi Netlify Anda secara publik. Aplikasi ini melakukan sinkronisasi token sesi Stockbit Anda ke database. Jika URL bocor, orang lain dapat menyalahgunakan akses tersebut. Gunakan aplikasi ini hanya untuk penggunaan pribadi.
@@ -14,11 +14,11 @@ Adimology adalah aplikasi web untuk menganalisis target harga saham berdasarkan 
 
 ---
 
-## 🚀 Pilih Opsi Instalasi
+## Pilih Opsi Instalasi
 
 Pilih salah satu opsi instalasi yang sesuai dengan kebutuhan Anda:
 
-| | ☁️ **OPSI A: CLOUD** | 💻 **OPSI B: LOKAL** |
+| | **OPSI A: CLOUD** | 💻 **OPSI B: LOKAL** |
 |---|---|---|
 | **Platform** | Netlify + Supabase | PC Lokal + Supabase |
 | **Akses** | Dari mana saja via URL | Hanya dari PC Anda |
@@ -28,7 +28,7 @@ Pilih salah satu opsi instalasi yang sesuai dengan kebutuhan Anda:
 
 ---
 
-# ☁️ OPSI A: Deploy ke Cloud (Netlify + Supabase)
+# OPSI A: Deploy ke Cloud (Netlify + Supabase)
 
 Ikuti langkah-langkah berikut secara berurutan:
 
@@ -111,7 +111,7 @@ Ikuti langkah-langkah berikut secara berurutan:
 
 ---
 
-# 💻 OPSI B: Instalasi Lokal (PC + Supabase)
+# OPSI B: Instalasi Lokal (PC + Supabase)
 
 Ikuti langkah-langkah berikut secara berurutan:
 
@@ -219,7 +219,7 @@ Aplikasi akan berjalan di [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Token tidak tersinkronisasi?
 - Pastikan ekstensi sudah di-load dengan benar di `chrome://extensions/`
@@ -243,7 +243,7 @@ Aplikasi akan berjalan di [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 📊 Referensi Environment Variables
+## Referensi Environment Variables
 
 | Variable | Cloud | Lokal | Deskripsi |
 |----------|:-----:|:-----:|-----------|
@@ -256,7 +256,7 @@ Aplikasi akan berjalan di [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🌟 Fitur Utama
+## Fitur Utama
 
 - **Analisis Target**: Menghitung target harga "Realistis (R1)" dan "Maksimal" berdasarkan rata-rata harga pembelian broker (Avg Bandar).
 - **History & Watchlist**: Menyimpan riwayat analisis untuk dipantau di kemudian hari.
@@ -270,7 +270,7 @@ Aplikasi akan berjalan di [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend**: [Next.js 15 (App Router)](https://nextjs.org/), React 19, Tailwind CSS 4.
 - **Backend/Database**: [Supabase](https://supabase.com/) (PostgreSQL).
@@ -280,6 +280,12 @@ Aplikasi akan berjalan di [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 📄 Lisensi
+## Lisensi
+
+Aplikasi ini dilisensikan di bawah [MIT License](LICENSE).
+
+Copyright (c) 2024 Adimology.
+
+Izin diberikan, secara gratis, kepada siapa pun yang mendapatkan salinan perangkat lunak ini untuk menggunakannya tanpa batasan, termasuk hak untuk menggunakan, menyalin, memodifikasi, menggabungkan, menerbitkan, mendistribusikan, menyisipkan lisensi, dan/atau menjual salinan perangkat lunak ini. 
 
 Proyek ini dibuat untuk tujuan edukasi dan penggunaan pribadi. Pastikan untuk mematuhi ketentuan penggunaan layanan pihak ketiga yang digunakan.
